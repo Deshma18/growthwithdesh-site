@@ -107,18 +107,18 @@ async def send_email(*, to: str, subject: str, html: str, reply_to: str | None =
     if reply_to or EMAIL_REPLY_TO:
         payload["contact_email"] = reply_to or EMAIL_REPLY_TO
     try:
-       async with httpx.AsyncClient(timeout=30) as client:
-    resp = await client.post(
-        "https://api.resend.com/emails",
-        headers={"Authorization": f"Bearer {RESEND_API_KEY}"},
-        json={
-            "from": f"{EMAIL_FROM_NAME} <onboarding@resend.dev>",
-            "to": payload["to"],
-            "subject": payload["subject"],
-            "html": payload["html"],
-            "reply_to": payload.get("contact_email"),
-        },
-    )
+        async with httpx.AsyncClient(timeout=30) as client:
+            resp = await client.post(
+                "https://api.resend.com/emails",
+                headers={"Authorization": f"Bearer {RESEND_API_KEY}"},
+                json={
+                    "from": f"{EMAIL_FROM_NAME} <onboarding@resend.dev>",
+                    "to": payload["to"],
+                    "subject": payload["subject"],
+                    "html": payload["html"],
+                    "reply_to": payload.get("contact_email"),
+                },
+            )
         resp.raise_for_status()
         return resp.json().get("id")
     except httpx.HTTPStatusError as e:
