@@ -207,24 +207,6 @@ export const caseStudies = [
       "Growth marketing strategy · App Store Optimization (ASO) · Budget planning & channel allocation · KPI design · User persona development",
   },
   {
-    slug: "kapiva-capstone",
-    num: "05",
-    category: "Digital marketing · Strategic exercise",
-    title: "Kapiva — Digital Marketing Capstone",
-    company: "Kapiva",
-    blurb:
-      "A full-funnel digital marketing plan covering positioning, channels, and growth tactics for a D2C wellness brand.",
-    coverStat: "D2C",
-    coverStatLabel: "wellness category",
-    theme: "coral",
-    role: "Digital Marketing Capstone — full-funnel digital marketing plan.",
-    context:
-      "A capstone exercise: a full-funnel digital marketing plan for Kapiva, a D2C wellness brand — covering positioning, channel strategy and growth tactics.",
-    impactStats: [{ value: "D2C", label: "Wellness category" }],
-    summaryNote:
-      "This is a summary entry — the detailed write-up for the Kapiva capstone will be added shortly.",
-  },
-  {
     slug: "mamaearth-content-strategy",
     num: "06",
     category: "Content strategy · Public brand analysis",
