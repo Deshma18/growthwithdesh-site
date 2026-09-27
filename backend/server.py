@@ -32,8 +32,7 @@ app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
 # Managed email (Resend via Emergent integration proxy)
-EMAIL_BASE_URL = "https://integrations.emergentagent.com"
-EMAIL_KEY = os.environ["EMERGENT_EMAIL_KEY"]
+RESEND_API_KEY = os.environ["RESEND_API_KEY"]
 EMAIL_FROM_NAME = os.environ["EMAIL_FROM_NAME"]
 EMAIL_REPLY_TO = os.environ.get("EMAIL_REPLY_TO")
 OWNER_EMAIL = os.environ["OWNER_EMAIL"]
@@ -108,12 +107,18 @@ async def send_email(*, to: str, subject: str, html: str, reply_to: str | None =
     if reply_to or EMAIL_REPLY_TO:
         payload["contact_email"] = reply_to or EMAIL_REPLY_TO
     try:
-        async with httpx.AsyncClient(timeout=30) as client:
-            resp = await client.post(
-                f"{EMAIL_BASE_URL}/api/v1/email/send",
-                headers={"X-Email-Key": EMAIL_KEY},
-                json=payload,
-            )
+       async with httpx.AsyncClient(timeout=30) as client:
+    resp = await client.post(
+        "https://api.resend.com/emails",
+        headers={"Authorization": f"Bearer {RESEND_API_KEY}"},
+        json={
+            "from": f"{EMAIL_FROM_NAME} <onboarding@resend.dev>",
+            "to": payload["to"],
+            "subject": payload["subject"],
+            "html": payload["html"],
+            "reply_to": payload.get("contact_email"),
+        },
+    )
         resp.raise_for_status()
         return resp.json().get("id")
     except httpx.HTTPStatusError as e:
